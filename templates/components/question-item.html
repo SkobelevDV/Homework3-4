@@ -1,0 +1,42 @@
+{% load static %}
+
+         <div class="row question" >
+           <div class="col-3">
+
+             <img src="{% static '/img/fiona.jpeg' %}" alt ="" class="question-image">
+             <div class="counter">
+                <span class="input-group-text" >6</span>
+                <div class="double-button">
+                  <div class="like">
+                     <button class="like-dislike" >like!</button>
+                  </div>
+                  <div class="double-button">
+                    <button class="like-dislike" >dislike!</button>
+                  </div>
+                </div>
+             </div>
+
+
+           </div>
+           <div class="col-9">
+             <div class="question-title"><a href ="{% url 'question' question_id=question.id %}">{{ question.title }}</a></div>
+             <div class="question-text">
+               {{ question.content }}
+             </div>
+
+             <div class="black-jack">
+               <a  href="">Answer (3)</a>
+               <div class="black-jack2">
+                 <h  href="">Tags: </h>
+               </div>
+
+               <div class="answer">
+                 <a  href="">black-jack</a>
+               </div>
+
+               <div class="answer">
+                 <a  href="{% url 'tag' %}">bender</a>
+               </div>
+             </div>
+           </div>
+         </div>
