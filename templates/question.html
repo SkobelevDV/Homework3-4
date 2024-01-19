@@ -1,90 +1,23 @@
 {% extends 'layouts/base.html' %}
-
-
+{% load static%}
 {% block content %}
-{% include 'components/question-item.html' %}
 
-         <div class="question2">
-           <div class="question3">
-             <div class="col-3">
-             <img src="../static/img/fiona.jpeg" alt ="" class="question-image">
-             <div class="counter">
-                <span class="input-group-text" >6</span>
-                <div class="double-button">
-                  <div class="like">
-                     <button class="like-dislike" >like!</button>
-                  </div>
-                  <div class="double-button">
-                    <button class="like-dislike" >dislike!</button>
-                  </div>
-                </div>
-             </div>
+    <div class="row question-main">
+    {% include 'components/question-item.html' %}
+    </div>
 
+        <div class="block-title" href ="">Answers</div>
 
-           </div>
-           <div class="col-9">
-             <div class="question-text">Lorem Ipsum is simply dummy text of the printing
-               and typesetting industry.
-               Lorem Ipsum has been the industry's standard dummy text ever
-               since the 1500s, when an unknown printer took a galley of type
-               and scrambled it to make a type specimen book.
-               It has survived not only five centuries, but also the leap
-               into
-               electronic typesetting, remaining essentially unchanged.
-               It was popularised in the 1960s with the release of
-               Letraset sheets containing Lorem Ipsum passages, and more recently
-               with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.
-             </div>
-             <div class="form-check">
-               <input class="form-check-input" type="checkbox" value="" id="flexCheckChecked" checked style="margin-top:20px;">
-               <label class="form-check-label" for="flexCheckChecked" style="margin-top:16px;">
-                 Correct!
-               </label>
-             </div>
-           </div>
-           </div>
-           <div class="question3">
-             <div class="col-3">
-             <img src="../static/img/fiona.jpeg" alt ="" class="question-image">
-             <div class="counter">
-                <span class="input-group-text" >6</span>
-                <div class="double-button">
-                  <div class="like">
-                     <button class="like-dislike" >like!</button>
-                  </div>
-                  <div class="double-button">
-                    <button class="like-dislike" >dislike!</button>
-                  </div>
-                </div>
-             </div>
+{% for answer in answers %}
+    {% include 'components/answer-item.html' %}
+{% endfor %}
 
+{% include 'components/pagin.html' %}
 
-           </div>
-           <div class="col-9">
-             <div class="question-text">Lorem Ipsum is simply dummy text of the printing
-               and typesetting industry.
-               Lorem Ipsum has been the industry's standard dummy text ever
-               since the 1500s, when an unknown printer took a galley of type
-               and scrambled it to make a type specimen book.
-               It has survived not only five centuries, but also the leap
-               into
-               electronic typesetting, remaining essentially unchanged.
-               It was popularised in the 1960s with the release of
-               Letraset sheets containing Lorem Ipsum passages, and more recently
-               with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.
-             </div>
-             <div class="form-check">
-              <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault1" style="margin-top:20px;">
-                <label class="form-check-label" for="flexCheckDefault1" style="margin-top:16px;">
-                 Correct!
-               </label>
-            </div>
-           </div>
-           </div>
-         </div>
-         <textarea class="label3" placeholder="Enter your answer here.."></textarea>
-         <button class="answer2" >Answer</button>
-
-
+         <label for="comment" class="answer-ask">Enter your answer hear:</label>
+         <form action="/submit_form" method="post">
+            <textarea id="comment" name="comment" rows="14" cols="102" maxlength="256"></textarea>
+            <button class="butt-ans" type="submit">Answer</button>
+          </form>
 
 {% endblock %}

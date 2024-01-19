@@ -1,27 +1,20 @@
 {% extends 'layouts/base.html' %}
 {% load static %}
+
 {% block content %}
 
-         <div class="hot-quest">
-           <h1 >New Questions</h1>
-           <div class="hot-quest2">
-             <a  href="{% url 'hot' %}">Hot question</a>
-           </div>
-         </div>
+         <a class="block-title" href ="">Questions</a>
+         <div class="question-title">
+            <a  href="{% url 'hot' %}">Hot question</a>
+              <a>|</a>
+            <a  href="{% url 'new' %}">New question</a>
+          </div>
 
 {% for question in questions %}
-
-{% include 'components/question-item.html' %}
-
-{% endfor %}
-    <div class="buttons">
-      <button >1</button>
-      <button class="answer">2</button>
-      <button class="answer">3</button>
-      <button class="answer">4</button>
-      <button class="answer">5</button>
-      <button class="answer">...</button>
-      <button class="answer">53</button>
+    <div class="row question">
+    {% include 'components/question-item.html' %}
     </div>
+{% endfor %}
 
+{% include 'components/pagin.html' %}
 {% endblock %}

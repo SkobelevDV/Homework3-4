@@ -2,7 +2,7 @@
 {% load static %}
 {% block content %}
 
-<a class="block-title">Вопросы по тегу: {{ tag_name }}</a>
+<h1 >New questions</h1>
 
 {% for question in questions %}
     <div class="row question">
@@ -11,5 +11,4 @@
 {% endfor %}
 
 {% include 'components/pagin.html' %}
-
 {% endblock %}

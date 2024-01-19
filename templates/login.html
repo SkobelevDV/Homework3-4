@@ -1,44 +1,32 @@
 {% extends 'layouts/base.html' %}
 {% load static %}
 {% block content %}
-{% load django_bootstrap5 %}
 
+<h1>{{ title }}</h1>
 
-       <div class="col-8">
-         <h1 style="display:block;">Log in</h1>
-           <span class="labelTextRed" >Sorry, wrong password!</span>
-           <span class="labelTextRed" ></span>
-<!--          <div class="input-group input-group-sm mb-3">-->
-<!--            <span class="labelText" >Login</span>-->
-<!--            <input class="label4">-->
-<!--          </div>-->
+<div class="row">
+    <div class="col-3">
+        <form method="post" class="form">
+            {% csrf_token %}
+            {% for f in form %}
+            <div class="form-group">
+                <label class="form-label" for="{{ f.id_for_label }}">{{ f.label }}:</label>
+            </div>
+            {% endfor %}
+    </div>
+    <div class="col-5">
+        <form method="post" class="form">
+            {% csrf_token %}
+            {% for f in form %}
+            <div class="form-group">
+                {{ f }}
+                <div class="form-error">{{ f.errors }}
+                </div>
+            </div>
+            {% endfor %}
+    </div>
+</div>
+<button class="butt-sett" type="submit">Login</button>
+</form>
 
-<!--          <div class="input-group input-group-sm mb-3">-->
-<!--            <span class="labelText" >password</span>-->
-<!--            <input type="password" class="label4">-->
-<!--          </div>-->
-
-<!--           <button class="buttonASK" style="border-radius: 10px;">Log in</button>-->
-<!--           <div class="create">-->
-<!--               <a href="{% url 'signup' %}" class="shapka_1" style="color:blue; ">create new account</a>-->
-<!--           </div>-->
-
-           <form  action= "/login/" method="post">  <!-- ошибка csrf {% csrf_token %}вставить сюда либо выкл в настройках -->
-<!--                <div class="mb-3">-->
-<!--                    <label for="exampleInputEmail1" class="form-label">Username</label>-->
-<!--                    <input type="text" name = "username" class="form-control" id="exampleInputEmail1" aria-describedby="usernameHelp">-->
-<!--                    <div id="usernameHelp" class="form-text">We'll never share your username with anyone else.</div>-->
-<!--                </div>-->
-
-<!--                <div class="mb-3">-->
-
-<!--                    <label for="exampleInputPassword1" class="form-label">Password</label>-->
-<!--                    <input type="password" name="password" class="form-control" id="exampleInputPassword1">-->
-<!--                </div>-->
-               {%  csrf_token  %}
-               {%  bootstrap_form form  %}
-                <button type="submit" class="btn btn-primary">Submit</button>
-            </form>
-
-       </div>
 {% endblock %}

@@ -3,36 +3,37 @@
 {% block content %}
 
 <!-- Begin page content -->
-
        <div class="col-8">
-         <h1 >Settings: Dr. Pepper</h1>
-          <div class="input-group input-group-sm mb-3">
-            <span class="labelText" >Login</span>
-            <input class="label4">
-          </div>
-
-          <div class="input-group input-group-sm mb-3">
-            <span class="labelText" >Email</span>
-            <input class="label4">
-          </div>
-
-          <div class="input-group input-group-sm mb-3">
-            <span class="labelText" >NickName</span>
-            <input class="label4">
-          </div>
-
-           <div class="input-group input-group-sm mb-3">
-            <span class="labelText" >Upload Avatar</span>
-            <img src="../static/img/fiona.jpeg" alt ="" class="question-image" style="border-radius: 10px;">
-          </div>
-           <div class="way">
-            <input class="label5">
-               <button type="submit" style="margin-left:10px; border-radius: 10px;" >choose</button>
-           </div>
-
-           <button class="buttonASK" style="border-radius: 10px;">Save</button>
+         <a class="block-title" href ="">Settings: </a>
+         <div class="row">
+             <div class="col-2">
+                     <p style="margin-top: 25px;"></p>
+                     <label class="answer-sett">Login:</label>
+                     <label class="answer-sett">Email:</label>
+                     <label class="answer-sett">NickName:</label>
+                     <label class="answer-sett">Upload avatar:</label>
+             </div>
+             <div class="col-6">
+                 <div class="window-ask"></div>
+                    <form class="d-flex">
+                      <input class="form-control me-2" type="search" aria-label="Search" value="Login" maxlength="256">
+                    </form>
+                     <form class="d-flex">
+                      <input class="form-control me-2" type="search" aria-label="Search" value="mail@yandex.ru" maxlength="256">
+                    </form>
+                    <form class="d-flex">
+                      <input class="form-control me-2" type="search" aria-label="Search" value="Nickname" maxlength="256">
+                    </form>
+                     <img src="../static/img/fiona.jpeg" alt="Logotype" class="question-image">
+                     <p style="margin-right: 10px;"></p>
+                     <form class="d-flex">
+                        <input class="form-control me-2" type="search" aria-label="avatar" value="c:\avatar.jpg" style="width: 190px;" maxlength="256">
+                        <button class="butt-sett" type="submit">choose</button>
+                     </form>
+                     <p style="margin-right: 10px;"></p>
+                     <button class="butt-sett" type="submit">Save</button>
+                </div>
+             </div>
        </div>
-
-
 
 {% endblock %}

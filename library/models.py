@@ -8,15 +8,18 @@ class AuthorManager(models.Manager):
     def alive (self):
         return self.filter (death_date__isnull = True)
 
+class Genre (models.Model):
+    name = models.CharField(max_length=256 , unique=True)
 
+    def __str__(self):
+        return f"{self.name}"
 class Book (models.Model):
     title = models.CharField( max_length = 256 )
     author = models.ForeignKey('Author',max_length=256, on_delete= models.PROTECT)
 
     date_written = models.DateField(null= True, blank= True )
 
-    genre = models.ManyToManyField('Genre' )
-
+    genre = models.ManyToManyField('Genre')
     def __str__(self):
         return f"{self.title} {self.author} {self.genre} "
 
@@ -31,11 +34,7 @@ class Author (models.Model):
 
     def __str__(self):
         return f"{self.name} {self.surname}"
-class Genre (models.Model):
-    name = models.CharField(max_length=256)
 
-    def __str__(self):
-        return f"{self.name}"
 class BookInstance (models.Model):
     book = models.ForeignKey('book', on_delete=models.PROTECT )
     user = models.ForeignKey(User, on_delete= models.PROTECT )

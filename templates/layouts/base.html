@@ -45,27 +45,33 @@
 
 
           <div class="right-area">
+
+              {% if request.user.is_authenticated %}
               <a href="{% url 'ask' %}" class="btn btn-outline-success" type="submit">ASK!</a>
-
-            <div class="avatar-image">
-              <img src="{% static '/img/fiona.jpeg' %}" alt ="" class="avatar-image">
-            </div>
-
-            <div class="text-autorize">
-              <div class="shapka">
-                <h class="shapka" >Dr. Pepper</h>
+              <div class="avatar-image">
+                  <img src="{% static '/img/fiona.jpeg' %}" alt ="" class="avatar-image">
               </div>
-              <div class="shapka">
-               <div class="shapka">
-                 <div class="row-6">
-                    <a href="{% url 'settings' %}" class="shapka_1">setting</a>
+
+              <div class="text-autorize">
+                  <div class="shapka">
+                      <h class="shapka" >{{user.username}}</h>
                   </div>
-                  <div class="row-6">
-                    <a  href="{% url 'login' %}" class="shapka">log_out</a>
+                  <div class="shapka">
+                      <div class="shapka">
+                          <div class="row-6"><a href="{% url 'settings' %}" class="shapka_1">setting</a>
+                          </div>
+                          <div class="row-6"><a  href="{% url 'logout' %}" class="shapka">log_out</a>
+                          </div>
+                      </div>
                   </div>
-                </div>
               </div>
-           </div>
+              {% else %}
+              <a href="{% url 'login' %}" class="btn btn-outline-success" type="submit">login</a>
+              <a href="{% url 'signup' %}" class="btn btn-outline-success" type="submit">registration</a>
+
+              {% endif %}
+
+
           </div>
 
 
@@ -97,21 +103,30 @@
          <div class="row">
            <h2>Popular tags</h2>
            <div class="tags">
-             <span class="badge bg-primary">Python</span>
-             <span class="badge bg-secondary">CSS</span>
-             <span class="badge bg-success">Voloshin</span>
-             <span class="badge bg-danger">Django</span>
-             <span class="badge bg-dark">VK</span>
+               {% for tag in popular_tags %}
+               <span class="tags-question">
+                   <a class="badge bg-primary" href="{% url 'tag' tag_name=tag.name %}">{{ tag.name }}</a>
+               </span>
+<!--                <span class="badge bg-success tags">{{ tag.name }}</span>-->
+              {% endfor %}
+<!--             <span class="badge bg-primary">Python</span>-->
+<!--             <span class="badge bg-secondary">CSS</span>-->
+<!--             <span class="badge bg-success">Voloshin</span>-->
+<!--             <span class="badge bg-danger">Django</span>-->
+<!--             <span class="badge bg-dark">VK</span>-->
            </div>
            <br/>
            <h2>Best members</h2>
-           <UL class="list-group" style = " margin-left: 15px; max-width:150px">
-             <li class="list-group-item"><a href=""></a>Mr. Freeman</li>
-             <li class="list-group-item"><a href=""></a>Dr. House</li>
-             <li class="list-group-item"><a href=""></a>Bender</li>
-             <li class="list-group-item"><a href=""></a>Queen Victoria</li>
-             <li class="list-group-item"><a href=""></a>V. Pupkin</li>
-           </UL>
+             {% for member in best_members %}
+              <li class="best-members">{{ member.nickname }}</li>
+              {% endfor %}
+<!--           <UL class="list-group" style = " margin-left: 15px; max-width:150px">-->
+<!--             <li class="list-group-item"><a href=""></a>Mr. Freeman</li>-->
+<!--             <li class="list-group-item"><a href=""></a>Dr. House</li>-->
+<!--             <li class="list-group-item"><a href=""></a>Bender</li>-->
+<!--             <li class="list-group-item"><a href=""></a>Queen Victoria</li>-->
+<!--             <li class="list-group-item"><a href=""></a>V. Pupkin</li>-->
+<!--           </UL>-->
          </div>
        </div>
      </div>

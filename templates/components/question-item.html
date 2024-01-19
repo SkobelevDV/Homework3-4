@@ -1,42 +1,34 @@
 {% load static %}
 
-         <div class="row question" >
-           <div class="col-3">
 
-             <img src="{% static '/img/fiona.jpeg' %}" alt ="" class="question-image">
-             <div class="counter">
-                <span class="input-group-text" >6</span>
-                <div class="double-button">
-                  <div class="like">
-                     <button class="like-dislike" >like!</button>
-                  </div>
-                  <div class="double-button">
-                    <button class="like-dislike" >dislike!</button>
-                  </div>
-                </div>
-             </div>
+  <div class="col-3">
+    <img src="{{ question.photo.url }}" alt="" class="question-image">
+    <div class="buttons">
 
 
-           </div>
-           <div class="col-9">
-             <div class="question-title"><a href ="{% url 'question' question_id=question.id %}">{{ question.title }}</a></div>
-             <div class="question-text">
-               {{ question.content }}
-             </div>
+      <button class="button" onclick="like(1)">like
+      </button>
+      <div class="counter">
+        <p id="count1">{{ question.total_likes }}</p>
+      </div>
+      <button class="image-button" onclick="dislike(1)">
+        dislike
+      </button>
+    </div>
+  </div>
+  <div class="col-9">
+    <div class="question-title"><a href="{% url 'question' question.id %}">{{ question.title }}</a></div>
+    <div class="question-text">
+      {{ question.content }}
+    </div>
 
-             <div class="black-jack">
-               <a  href="">Answer (3)</a>
-               <div class="black-jack2">
-                 <h  href="">Tags: </h>
-               </div>
-
-               <div class="answer">
-                 <a  href="">black-jack</a>
-               </div>
-
-               <div class="answer">
-                 <a  href="{% url 'tag' %}">bender</a>
-               </div>
-             </div>
-           </div>
-         </div>
+    <p style="margin-top: 3px;"></p>
+    <span class="question-text">Tags:</span>
+    {% for tag in question.tags.all %}
+      <span class="tags-question">
+        <a class="badge bg-primary" href="{% url 'tag' tag_name=tag.name %}">{{ tag.name }}</a>
+      </span>
+    {% endfor %}
+    <p style="margin-top: 3px;"></p>
+    <div class="badge bg-danger">Answers: {{ question.total_answers }}</div>
+  </div>

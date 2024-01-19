@@ -13,20 +13,27 @@ Including another URLconf
     1. Import the include() function: from django.urls import include, path
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
+from django.conf.urls.static import static
 from django.contrib import admin
-from django.urls import path, include
+from django.urls import *
 from app import views
+from askme import settings
 
 urlpatterns = [
-    path ('/settings/', views.settings, name='settings'),
-    path ('/ask/', views.ask, name='ask'),
-    path ('signup/', views.signup, name='signup'),
-    path ('login/',views.log_in, name='login'),
-    path ('/tag/bender', views.tag, name='tag'),
-    path ('/hot/', views.hot, name='hot'),
-    path ('/', views.index, name='index'),
-    path ('', views.index, name='index'),
-    path ('question/<int:question_id>', views.question, name='question'),
-    path('admin/', admin.site.urls),
-    path ('library/', include ("library.urls") )
+    path('signup/', views.RegisterUser.as_view(), name='signup'),
+    path('ask/', views.ask, name='ask'),
+    path('login/', views.LoginUser.as_view(), name='login'),
+    path('logout/', views.logout_user, name='logout'),
+    path('tag/<str:tag_name>/', views.tag, name='tag'),
+    path('settings/', views.settings, name='settings'),
+    path('hot/', views.hot, name='hot'),
+    path('new/', views.new, name='new'),
+    path('', views.index, name='index'),
+    path('question/<int:question_id>', views.question, name='question'),
+    path('admin/', admin.site.urls)
 ]
+
+if settings.DEBUG:
+    urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+
+handler404 = views.pageNotFound
