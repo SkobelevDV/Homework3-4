@@ -1,4 +1,4 @@
-from django.contrib.auth import logout, login
+from django.contrib.auth import logout, login, authenticate
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.views import LoginView
 from django.core.paginator import Paginator
@@ -10,7 +10,6 @@ from django.contrib.auth.mixins import LoginRequiredMixin
 
 from .forms import *
 from .models import *
-from .utils import *
 
 def paginate(objects, page, per_page=5):
     otn = int(len(objects) + per_page - 1) // per_page
@@ -33,9 +32,13 @@ def find_best_members(objects, count_top=5):
     best_members = objects.best_users(count_top)
     return best_members
 
+
+@login_required(login_url='login/', redirect_field_name='continue')
 def index(request):
+
     page = request.GET.get('page', 1)
     paginate_res, page_obj = paginate(Question.objects.all().order_by('id'), page)
+
     return render(request, 'index.html', {'page_obj': page_obj, 'questions': paginate_res,
                                            'popular_tags': find_top_tags(Tag.objects), 'best_members': find_best_members(Profile.objects)})
 
@@ -71,56 +74,69 @@ def tag(request, tag_name):
     return render(request, 'tag.html', {'page_obj': page_obj, 'questions': paginate_res,
                                           'tag_name': tag_name, 'popular_tags': find_top_tags(Tag.objects), 'best_members': find_best_members(Profile.objects)})
 
-#def signup(request):
-#    return render(request, 'signup.html', {'popular_tags': find_top_tags(Tag.objects), 'best_members': find_best_members(User.objects)})
 
 def ask(request):
     return render(request, 'ask.html', {'popular_tags': find_top_tags(Tag.objects), 'best_members': find_best_members(Profile.objects)})
 
-#def login(request):
-#    return render(request, 'login.html', {'popular_tags': find_top_tags(Tag.objects), 'best_members': find_best_members(User.objects)})
 
 def pageNotFound(request, exception):
     return HttpResponseNotFound('<h1>Страница не найдена</h1>')
 
-class RegisterUser(DataMixin, CreateView):
-    form_class = RegisterUserForm
-    template_name = 'signup.html'
-    success_url = reverse_lazy('login')
+#Tag.objects.create(name=user)
+def sign_up (request):
+    print (request.GET)
+    print (request.POST)
+    if request.method == 'GET':
+        signup_form = SignUpForm()
+    if request.method == 'POST':
+        signup_form = SignUpForm(request.POST)
+        if signup_form.is_valid():
+            print ('form valid')
+            login1 = request.POST["login"]
+            nickname = request.POST["nickname"]
+            email1= request.POST["email"]
+            password = request.POST["password1"]
+            userAuth = User.objects.create_user(login1, email1, password)
+            user = Profile.objects.create(
+                userAuth=userAuth,
+                nickname = nickname,
+                photo=f'img/fiona.jpeg',
+            )
+            user = authenticate (request, username = login1, password=password)
+            print(user)
+            if user is not None:
+                login(request, user)
+                print ('Successfully logged in')
+                return redirect (reverse_lazy('index'))
+            else:
+                signup_form.add_error(None,"Wrong password or user does not exist.")
+    return render (request, "login.html", context={'form':signup_form})
 
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        c_def = self.get_user_context(title="Sign up")
 
-        # Добавляем данные в контекст
-        context['popular_tags'] = find_top_tags(Tag.objects)
-        context['best_members'] = find_best_members(Profile.objects)
+def log_in (request):
+    print (request.GET)
+    print (request.POST)
+    if request.method == 'GET':
+        login_form = LoginForm()
+    if request.method == 'POST':
 
-        # Объединяем контексты
-        return dict(list(context.items()) + list(c_def.items()))
+        login_form = LoginForm(request.POST)
+        if login_form.is_valid():
+            print ('form valid')
+            username = request.POST["login"]
+            password = request.POST["password"]
+            user = authenticate(request, username = username, password=password)
 
-    def form_valid(self, form):
-        user = form.save()
-        login(self.request, user)
-        return redirect('index')
+            print(user)
+            if user is not None:
+                login(request, user)
+                print ('Successfully logged in')
+                return redirect (reverse_lazy('index'))
+            else:
+                login_form.add_error(None,"Wrong password or user does not exist.")
 
-class LoginUser(DataMixin, LoginView):
-    form_class = LoginUserForm
-    template_name = 'login.html'
+    return render (request, "login.html", context={'form':login_form})
 
-    def get_context_data(self, *, object_list=None, **kwargs):
-        context = super().get_context_data(**kwargs)
-        c_def = self.get_user_context(title="Login")
-
-        # Добавляем данные в контекст
-        context['popular_tags'] = find_top_tags(Tag.objects)
-        context['best_members'] = find_best_members(Profile.objects)
-
-        # Объединяем контексты
-        return dict(list(context.items()) + list(c_def.items()))
-
-    def get_success_url(self):
-        return reverse_lazy('index')
 
 
 def logout_user(request):

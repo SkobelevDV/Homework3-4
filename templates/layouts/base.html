@@ -107,26 +107,15 @@
                <span class="tags-question">
                    <a class="badge bg-primary" href="{% url 'tag' tag_name=tag.name %}">{{ tag.name }}</a>
                </span>
-<!--                <span class="badge bg-success tags">{{ tag.name }}</span>-->
               {% endfor %}
-<!--             <span class="badge bg-primary">Python</span>-->
-<!--             <span class="badge bg-secondary">CSS</span>-->
-<!--             <span class="badge bg-success">Voloshin</span>-->
-<!--             <span class="badge bg-danger">Django</span>-->
-<!--             <span class="badge bg-dark">VK</span>-->
+
            </div>
            <br/>
            <h2>Best members</h2>
              {% for member in best_members %}
               <li class="best-members">{{ member.nickname }}</li>
               {% endfor %}
-<!--           <UL class="list-group" style = " margin-left: 15px; max-width:150px">-->
-<!--             <li class="list-group-item"><a href=""></a>Mr. Freeman</li>-->
-<!--             <li class="list-group-item"><a href=""></a>Dr. House</li>-->
-<!--             <li class="list-group-item"><a href=""></a>Bender</li>-->
-<!--             <li class="list-group-item"><a href=""></a>Queen Victoria</li>-->
-<!--             <li class="list-group-item"><a href=""></a>V. Pupkin</li>-->
-<!--           </UL>-->
+
          </div>
        </div>
      </div>

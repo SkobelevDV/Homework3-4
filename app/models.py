@@ -1,12 +1,13 @@
 import datetime
 from django.db import models
-from django.contrib.auth.models import AbstractUser, Group, Permission, BaseUserManager
+from django.contrib.auth.models import AbstractUser, Group, Permission, BaseUserManager, User
 from django.db.models import Count, Q
 from django.utils import timezone
 
 
 class LikeManager(models.Manager):
     pass
+
 
 class QuestionManager(models.Manager):
     def few_best_questions(self, amount=10):
@@ -29,8 +30,10 @@ class TagManager(models.Manager):
         popular_tags = self.annotate(num_questions=Count('questions')).order_by('-num_questions')[:count_top]
         return popular_tags
 
-class UserManager(BaseUserManager):
+class ProfileManager(BaseUserManager):
     def best_users(self, amount):
+        print(self.annotate(correct_answers_count=Count('answer', filter=Q(answer__is_correct=True))).order_by(
+                '-correct_answers_count')[:amount])
         return self.annotate(correct_answers_count=Count('answer', filter=Q(answer__is_correct=True))).order_by(
                 '-correct_answers_count')[:amount]
 
@@ -50,13 +53,16 @@ class Tag(models.Model):
     def __str__(self):
         return f"{self.name}"
 
-class Profile(AbstractUser):
-    photo = models.ImageField(null=True, blank=True, default="img/fiona.jpeg")
+class Profile(models.Model):
+    userAuth = models.OneToOneField(User, on_delete=models.CASCADE, default= User)
     nickname = models.CharField('User Nickname', max_length=50, default='user')
+    photo = models.ImageField(null=True, blank=True, default="img/fiona.png")
     groups = models.ManyToManyField(Group, related_name="custom_user_set")
     user_permissions = models.ManyToManyField(Permission, related_name="custom_user_set")
 
-    objects = UserManager()
+    objects = ProfileManager()
+    def __str__(self):
+        return f"{self.nickname}"
 
 class Question(models.Model):
     title = models.CharField(max_length=255)

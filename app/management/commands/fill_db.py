@@ -1,3 +1,4 @@
+from django.contrib.auth.models import User
 from django.core.management.base import BaseCommand
 from app.models import Question, Answer, Tag, Profile, LikeQuestion, LikeAnswer
 from django.utils import timezone
@@ -19,13 +20,13 @@ class Command(BaseCommand):
         LikeAnswer.objects.all().delete()
         Profile.objects.all().delete()
 
+
         users = []
         for i in range(ratio):
+            userAuth= User.objects.create_user(f'user_{i+1}',f'user_{i+1}@example.com',f'password{i+1}')
             user = Profile.objects.create(
-                username=f'user_{i+1}',
-                email=f'user_{i+1}@example.com',
-                password=f'password{i+1}',
-                nickname=f'nickname_{i+1}',
+                userAuth=userAuth,
+                nickname = f'user_{i+1}',
                 photo=f'img/fiona.jpeg',
             )
             users.append(user)

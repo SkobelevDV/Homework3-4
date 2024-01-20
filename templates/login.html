@@ -1,32 +1,20 @@
 {% extends 'layouts/base.html' %}
 {% load static %}
+{% load django_bootstrap5 %}
 {% block content %}
 
 <h1>{{ title }}</h1>
 
 <div class="row">
     <div class="col-3">
-        <form method="post" class="form">
-            {% csrf_token %}
-            {% for f in form %}
-            <div class="form-group">
-                <label class="form-label" for="{{ f.id_for_label }}">{{ f.label }}:</label>
-            </div>
-            {% endfor %}
+        <form method = "post">
+            {% bootstrap_form form %}
+            <button type = "submit" class = "btn btn-primary"> Submit</button>
+        </form>
+
     </div>
-    <div class="col-5">
-        <form method="post" class="form">
-            {% csrf_token %}
-            {% for f in form %}
-            <div class="form-group">
-                {{ f }}
-                <div class="form-error">{{ f.errors }}
-                </div>
-            </div>
-            {% endfor %}
-    </div>
+
 </div>
-<button class="butt-sett" type="submit">Login</button>
-</form>
+
 
 {% endblock %}
